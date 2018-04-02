@@ -4,7 +4,7 @@ import { NavController, NavParams, LoadingController } from 'ionic-angular';
 import { ApiScryfallProvider } from '../../providers/api-scryfall/api-scryfall';
 
 import { map, concatMap } from 'rxjs/operators';
-
+import 'rxjs/add/operator/finally';
 @Component({
   selector: 'page-list',
   templateUrl: 'list.html'
@@ -13,7 +13,8 @@ export class ListPage {
   selectedItem: any;
   icons: string[];
   items: Array<{ name: string, image: string }>;
-  loading;
+  private loading;
+  private lastPageLoaded: number = 1;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public _apiScryfallProvider: ApiScryfallProvider, public loadingCtrl: LoadingController) {
     this.items = [];
@@ -27,7 +28,7 @@ export class ListPage {
   ionViewDidLoad() {
     this.createLoader();
     this.presentLoadingDefault();
-    this.getCardsByPage(3);
+    this.getCardsByPage(this.lastPageLoaded, null);
   }
 
   createLoader() {
@@ -46,7 +47,8 @@ export class ListPage {
       this.loading = null;
     }
   }
-  getCardsByPage(nPage: number) {
+
+  getCardsByPage(nPage: number, infiniteScroll) {
     this._apiScryfallProvider.getCardsByPage(nPage).pipe(
       map((result: any) => {
         return result.data;
@@ -60,11 +62,21 @@ export class ListPage {
             name: String(card.name),
             image: String(card.image_uris.small)
           });
-          console.log(JSON.stringify(card.image_uris.small));
         }
       })
-    ).subscribe(() => {
+    ).finally(() => {
       this.dismissLoading();
+      if(infiniteScroll != null){
+        infiniteScroll.complete();
+      }
+    }).subscribe((result) => {
+      console.log(JSON.stringify(result));
     });
+  }
+
+  loadMorePages(event) {
+    this.lastPageLoaded += 1;
+    console.log(this.lastPageLoaded);
+    this.getCardsByPage(this.lastPageLoaded,event);
   }
 }

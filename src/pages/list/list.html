@@ -14,9 +14,10 @@
         <img src="{{item.image}}">
       </ion-avatar>
       {{item.name}}
-      <!--<div class="item-note" item-end>
-        {{item.note}}
-      </div>-->
     </button>
   </ion-list>
+
+  <ion-infinite-scroll (ionInfinite)="loadMorePages($event)">
+    <ion-infinite-scroll-content></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
 </ion-content>
