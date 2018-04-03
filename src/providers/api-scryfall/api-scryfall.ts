@@ -19,4 +19,8 @@ export class ApiScryfallProvider {
     return this.http.get(urls.scryfall+"cards?page="+nPage);
   }
 
+  public getCardById(id:string){
+    return this.http.get(urls.scryfall+"cards/"+id);
+  }
+
 }

@@ -5,7 +5,8 @@ import { HttpClientModule, HttpClient } from '@angular/common/http';
 
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
-import { ListPage } from '../pages/list/list';
+import { listAllCardsPage } from '../pages/listAllCards/listAllCards';
+import { CardInfoPage } from '../pages/card-info/card-info';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -15,7 +16,8 @@ import { ApiScryfallProvider } from '../providers/api-scryfall/api-scryfall';
   declarations: [
     MyApp,
     HomePage,
-    ListPage
+    listAllCardsPage,
+    CardInfoPage
   ],
   imports: [
     BrowserModule,
@@ -26,7 +28,8 @@ import { ApiScryfallProvider } from '../providers/api-scryfall/api-scryfall';
   entryComponents: [
     MyApp,
     HomePage,
-    ListPage
+    listAllCardsPage,
+    CardInfoPage
   ],
   providers: [
     StatusBar,

@@ -8,10 +8,11 @@
 </ion-header>
 
 <ion-content>
-  <ion-list>
-    <button ion-item *ngFor="let item of items">
-      <ion-avatar item-start>
-        <img src="{{item.image}}">
+  <ion-list [virtualScroll]="items">
+    <button ion-item *virtualItem="let item" (click)="showCardInfo(item.cardId)">
+      <ion-avatar item-start approxItemHeight="204px" approxItemWidth="146px">
+        <!--<ion-img src="{{item.image}}"></ion-img>-->
+        <img src="{{item.frontImage}}">
       </ion-avatar>
       {{item.name}}
     </button>
