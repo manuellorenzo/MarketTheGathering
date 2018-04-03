@@ -8,3 +8,7 @@
 .card-size{
     height: 300px !important;
 }
+
+.img-loaded + ion-spinner {
+    display:none !important;
+  }

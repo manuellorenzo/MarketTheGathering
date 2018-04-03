@@ -11,8 +11,7 @@
   <ion-list [virtualScroll]="items">
     <button ion-item *virtualItem="let item" (click)="showCardInfo(item.cardId)">
       <ion-avatar item-start approxItemHeight="204px" approxItemWidth="146px">
-        <!--<ion-img src="{{item.image}}"></ion-img>-->
-        <img src="{{item.frontImage}}">
+        <ion-img src="{{item.frontImage}}"></ion-img>
       </ion-avatar>
       {{item.name}}
     </button>
