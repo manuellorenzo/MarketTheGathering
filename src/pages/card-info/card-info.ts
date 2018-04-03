@@ -46,7 +46,7 @@ export class CardInfoPage {
     this._apiScryfallProvider.getCardById(this.cardId).pipe(
       map((card: any) => {
         this.cardInfo = card;
-        console.log(this.cardInfo);
+        console.log(JSON.stringify(this.cardInfo));
       })
     ).catch((error) => {
       console.log(error);

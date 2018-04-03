@@ -9,6 +9,8 @@
     height: 300px !important;
 }
 
-.img-loaded + ion-spinner {
-    display:none !important;
-  }
+.oracle-text{
+    white-space: pre-line;
+    text-align: center;
+    text-justify: inter-word;
+}

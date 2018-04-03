@@ -32,5 +32,6 @@
       </div>
       <img *ngIf="cardInfo.image_uris != undefined" src="{{cardInfo.image_uris.large}}" class="card-size" (load)="changeLoaded()">
     </div>
+    <p class="oracle-text">{{cardInfo.oracle_text}}</p>
   </div>
 </ion-content>
