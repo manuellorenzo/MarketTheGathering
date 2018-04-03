@@ -3,15 +3,15 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>List</ion-title>
+    <ion-title>ALL CARDS</ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content>
-  <ion-list [virtualScroll]="items">
-    <button ion-item *virtualItem="let item" (click)="showCardInfo(item.cardId)">
+  <ion-list>
+    <button ion-item *ngFor="let item of items" (click)="showCardInfo(item.cardId)">
       <ion-avatar item-start approxItemHeight="204px" approxItemWidth="146px">
-        <ion-img src="{{item.frontImage}}"></ion-img>
+        <img src="{{item.frontImage}}">
       </ion-avatar>
       {{item.name}}
     </button>

@@ -18,15 +18,17 @@
     <div class="text-center">
       <h1 class="title">{{cardInfo.name}}</h1>
     </div>
-    <div class="text-center">
+    <div class="text-center" width="100%">
       <div *ngIf="cardInfo.image_uris == undefined">
         <img *ngIf="sideShown" src="{{cardInfo.card_faces[0].image_uris.large}}" class="card-size" (load)="changeLoaded()">
-        <img *ngIf="!sideShown" src="{{cardInfo.card_faces[1].image_uris.large}}" class="card-size" (load)="changeLoaded()"> 
+        <img *ngIf="!sideShown" src="{{cardInfo.card_faces[1].image_uris.large}}" class="card-size" (load)="changeLoaded()">
         <br>
         <br>
-        <button class="text-center" width="100%" ion-button icon-only (click)="changeSide()">
-          <ion-icon name="return-right"></ion-icon>
-        </button>
+        <div width="100%">
+          <button class="text-center" ion-button icon-only (click)="changeSide()">
+            <ion-icon name="return-right"></ion-icon>
+          </button>
+        </div>
       </div>
       <img *ngIf="cardInfo.image_uris != undefined" src="{{cardInfo.image_uris.large}}" class="card-size" (load)="changeLoaded()">
     </div>

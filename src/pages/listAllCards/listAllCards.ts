@@ -37,11 +37,10 @@ export class listAllCardsPage {
   private lastPageLoaded: number = 1;
   private loadingPages;
   constructor(public navCtrl: NavController, public navParams: NavParams, public _apiScryfallProvider: ApiScryfallProvider, public loadingCtrl: LoadingController) {
-    this.items = [];
   }
 
   ngOnInit() {
-    this.createLoader;
+    this.items = [];
   }
 
   ionViewDidLoad() {
