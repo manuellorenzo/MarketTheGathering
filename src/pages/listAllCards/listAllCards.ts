@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { NavController, NavParams, LoadingController, Content, Img } from 'ionic-angular';
+import { NavController, NavParams, LoadingController } from 'ionic-angular';
 
 import { ApiScryfallProvider } from '../../providers/api-scryfall/api-scryfall';
 import { CardInfoPage } from '../card-info/card-info';
@@ -7,7 +7,6 @@ import { CardInfoPage } from '../card-info/card-info';
 import { Observable } from 'rxjs/Observable';
 import { map, concatMap } from 'rxjs/operators';
 import 'rxjs/add/operator/finally';
-import { updateImgs } from 'ionic-angular/components/content/content';
 
 @Component({
   selector: 'listAllCards-page',
@@ -111,7 +110,7 @@ export class listAllCardsPage {
   }
 
   getCardByName(searchBar) {
-    if (searchBar.srcElement.value.length > 0) {
+    if (searchBar.srcElement.value != undefined && searchBar.srcElement.value.length > 0) {
       this.items = [];
       this.searching = true;
       this._apiScryfallProvider.getCardByName(searchBar.srcElement.value).pipe(
