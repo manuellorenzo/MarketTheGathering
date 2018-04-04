@@ -18,20 +18,28 @@
     <div class="text-center">
       <h1 class="title">{{cardInfo.name}}</h1>
     </div>
-    <div class="text-center" width="100%">
+    <div class="text-center">
       <div *ngIf="cardInfo.image_uris == undefined">
         <img *ngIf="sideShown" src="{{cardInfo.card_faces[0].image_uris.large}}" class="card-size" (load)="changeLoaded()">
         <img *ngIf="!sideShown" src="{{cardInfo.card_faces[1].image_uris.large}}" class="card-size" (load)="changeLoaded()">
         <br>
         <br>
-        <div width="100%">
-          <button class="text-center" ion-button icon-only (click)="changeSide()">
-            <ion-icon name="return-right"></ion-icon>
-          </button>
-        </div>
       </div>
       <img *ngIf="cardInfo.image_uris != undefined" src="{{cardInfo.image_uris.large}}" class="card-size" (load)="changeLoaded()">
     </div>
-    <p class="oracle-text">{{cardInfo.oracle_text}}</p>
+    <div *ngIf="cardInfo.image_uris == undefined" class="text-center">
+      <button class="flip-button" ion-button icon-only (click)="changeSide()">
+        <ion-icon name="return-right"></ion-icon>
+      </button>
+    </div>
+    <div>
+      <div *ngIf="cardInfo.image_uris == undefined">
+        <p class="oracle-text" *ngIf="sideShown">{{cardInfo.card_faces[0].oracle_text}}</p>
+        <p class="oracle-text" *ngIf="!sideShown">{{cardInfo.card_faces[1].oracle_text}}</p>
+      </div>
+      <div *ngIf="cardInfo.image_uris != undefined">
+        <p class="oracle-text">{{cardInfo.oracle_text}}</p>
+      </div>
+    </div>
   </div>
 </ion-content>
