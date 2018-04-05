@@ -121,16 +121,14 @@ export class CardInfoPage {
       { "{P}": "p" }, { "{S}": "s" }, { "{X}": "x" }, { "{Y}": "y" }, { "{Z}": "z" }, { "{½}": "1-2" }, { "{∞}": "infinity" }, { "{100}": "100" }, { "{1000000}": "1000000" }, { "{e}": "e" }
     ];
     for (let i = 0; i < 21; i++) {
-      symbols.push({
-        "{" + i + "}": i
-      });
+      symbols["{"+i+"}"] = i;
     }
 
     console.log(JSON.stringify(symbols));
     for (let symbol of symbols) {
       let regex = new RegExp("\\" + symbol, "g");
       console.log("Symbol: " + symbol);
-      if (oldText.indexOf(symbol)) {
+      if (oldText.indexOf(String(symbol))) {
         oldText = oldText.replace(regex, '<i class="ms ms- ms-cost ms-shadow"></i>');
       }
     }
