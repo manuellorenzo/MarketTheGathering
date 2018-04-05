@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
 import { NavController, NavParams, LoadingController } from 'ionic-angular';
 
 import { ApiScryfallProvider } from '../../providers/api-scryfall/api-scryfall';
@@ -33,21 +33,20 @@ export class listAllCardsPage {
   icons: string[];
   items: Array<{ name: string, frontImage: string, backImage: string, cardId: string }>;
   private loading;
-  private lastPageLoaded: number = 1;
   private loadingPages;
-  private searching;
-  constructor(public navCtrl: NavController, public navParams: NavParams, public _apiScryfallProvider: ApiScryfallProvider, public loadingCtrl: LoadingController) {
+  private nextPage = null;
+  constructor(public navCtrl: NavController, public navParams: NavParams, 
+    public _apiScryfallProvider: ApiScryfallProvider, public loadingCtrl: LoadingController) {
   }
 
   ngOnInit() {
     this.items = [];
-    this.searching = false;
   }
 
   ionViewDidLoad() {
     this.createLoader();
     this.presentLoadingDefault();
-    this.getCardsByPage(this.lastPageLoaded, null);
+    this.getCardsByPage(null);
   }
 
   createLoader() {
@@ -67,11 +66,52 @@ export class listAllCardsPage {
     }
   }
 
-  getCardsByPage(nPage: number, infiniteScroll) {
-    if (!this.searching) {
-      this.loadingPages = true;
-      this._apiScryfallProvider.getCardsByPage(nPage).pipe(
+  getCardsByPage(infiniteScroll) {
+    console.log("Enter cards by page: "+this.nextPage);
+    this.loadingPages = true;
+    if (this.nextPage === null) {
+      this._apiScryfallProvider.getCardsByPage(1).pipe(
         map((result: any) => {
+          this.nextPage = result.next_page;
+          console.log("Next page: " + this.nextPage);
+          return result.data;
+        }),
+        concatMap((resultData: any) => {
+          return resultData;
+        }),
+        map((card: any) => {
+          if (card.image_uris != undefined && card.image_uris != null) {
+            this.items.push({
+              name: String(card.name),
+              frontImage: String(card.image_uris.small),
+              backImage: "",
+              cardId: card.id
+            });
+          } else if (card.card_faces != undefined && card.card_faces != null) {
+            this.items.push({
+              name: String(card.name),
+              frontImage: String(card.card_faces[0].image_uris.small),
+              backImage: String(card.card_faces[1].image_uris.small),
+              cardId: card.id
+            });
+          }
+        })
+      ).finally(() => {
+        this.dismissLoading();
+        this.loadingPages = false;
+        if (infiniteScroll != null) {
+          infiniteScroll.complete();
+        }
+      }).catch((error) => {
+        console.log(error);
+        return Observable.throw(error);
+      }).subscribe();
+    } else if(this.nextPage != undefined) {
+      console.log("Enter not undefined: "+this.nextPage);
+      this._apiScryfallProvider.getCardByUrl(this.nextPage).pipe(
+        map((result: any) => {
+          this.nextPage = result.next_page;
+          console.log("Next page: " + this.nextPage);
           return result.data;
         }),
         concatMap((resultData: any) => {
@@ -105,16 +145,18 @@ export class listAllCardsPage {
         return Observable.throw(error);
       }).subscribe();
     }else{
-      infiniteScroll.complete();
-    }
+      if (infiniteScroll != null) {
+        infiniteScroll.complete();
+      }    }
   }
 
   getCardByName(searchBar) {
+    this.items = [];
     if (searchBar.srcElement.value != undefined && searchBar.srcElement.value.length > 0) {
-      this.items = [];
-      this.searching = true;
       this._apiScryfallProvider.getCardByName(searchBar.srcElement.value).pipe(
         map((result: any) => {
+          this.nextPage = result.next_page;
+          console.log("Next page: " + this.nextPage);
           return result.data;
         }),
         concatMap((resultData: any) => {
@@ -145,17 +187,15 @@ export class listAllCardsPage {
         return Observable.throw(error);
       }).subscribe();
     } else {
-      this.searching = false;
       this.items = [];
-      this.getCardsByPage(1, null);
+      this.nextPage = null;
+      this.getCardsByPage(null);
     }
   }
 
   loadMorePages(event) {
     if (!this.loadingPages) {
-      this.lastPageLoaded += 1;
-      console.log(this.lastPageLoaded);
-      this.getCardsByPage(this.lastPageLoaded, event);
+      this.getCardsByPage(event);
     }
   }
 

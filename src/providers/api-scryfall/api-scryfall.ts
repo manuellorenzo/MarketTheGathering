@@ -26,4 +26,8 @@ export class ApiScryfallProvider {
   public getCardByName(name:string){
     return this.http.get(urls.scryfall+"cards/search?q="+name);
   }
+
+  public getCardByUrl(url:string){
+    return this.http.get(url);
+  }
 }
