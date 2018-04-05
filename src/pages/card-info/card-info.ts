@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, LoadingController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, LoadingController, AlertController } from 'ionic-angular';
+
 import { ApiScryfallProvider } from '../../providers/api-scryfall/api-scryfall';
 
 import { Observable } from 'rxjs/Observable';
@@ -23,13 +24,15 @@ import 'rxjs/add/observable/throw';
 export class CardInfoPage {
 
   private cardId: string;
-  private cardInfo = {};
+  private cardInfo: any = {};
   private loadComplete: boolean;
   private loading;
-  private sideShown:boolean;
-  private imagenLoaded:boolean;
+  private sideShown: boolean;
+  private imagenLoaded: boolean;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private _apiScryfallProvider: ApiScryfallProvider, public loadingCtrl: LoadingController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams,
+    private _apiScryfallProvider: ApiScryfallProvider, public loadingCtrl: LoadingController,
+    private alertCtrl: AlertController) {
   }
 
   ngOnInit() {
@@ -74,11 +77,38 @@ export class CardInfoPage {
     }
   }
 
-  changeSide(){
+  changeSide() {
     this.sideShown = !this.sideShown;
   }
 
-  changeLoaded(){
-    this.imagenLoaded = !this.imagenLoaded;
+  showLegalFormats() {
+    let formatText: string =
+      'Estandar: ' + this.transformFormat(this.cardInfo.legalities.standard) +
+      '\nFuture: ' + this.transformFormat(this.cardInfo.legalities.future) +
+      '\nFrontier: ' + this.transformFormat(this.cardInfo.legalities.frontier) +
+      '\nModern: ' + this.transformFormat(this.cardInfo.legalities.modern) +
+      '\nLegacy: ' + this.transformFormat(this.cardInfo.legalities.legacy) +
+      '\nPauper: ' + this.transformFormat(this.cardInfo.legalities.pauper) +
+      '\nVintage: ' + this.transformFormat(this.cardInfo.legalities.vintage) +
+      '\nPenny: ' + this.transformFormat(this.cardInfo.legalities.penny) +
+      '\nCommander: ' + this.transformFormat(this.cardInfo.legalities.commander) +
+      '\nCommander 1v1: ' + this.transformFormat(this.cardInfo.legalities["1v1"]) +
+      '\nDuel: ' + this.transformFormat(this.cardInfo.legalities.duel) +
+      '\nBrawl: ' + this.transformFormat(this.cardInfo.legalities.brawl)
+    let alert = this.alertCtrl.create({
+      title: 'Legalities',
+      subTitle: formatText
+    });
+    alert.present();
+  }
+
+  transformFormat(oldFormat: string) {
+    if (oldFormat === 'legal') {
+      return 'Legal';
+    } else if (oldFormat === 'banned') {
+      return 'Banned';
+    } else if (oldFormat === 'not_legal') {
+      return 'Not legal';
+    }
   }
 }

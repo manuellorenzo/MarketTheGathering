@@ -7,7 +7,11 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>Card info</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only clear end (click)="showLegalFormats()">
+        <ion-icon name="information"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
 
 </ion-header>
@@ -20,12 +24,12 @@
     </div>
     <div class="text-center">
       <div *ngIf="cardInfo.image_uris == undefined">
-        <img *ngIf="sideShown" src="{{cardInfo.card_faces[0].image_uris.large}}" class="card-size" (load)="changeLoaded()">
-        <img *ngIf="!sideShown" src="{{cardInfo.card_faces[1].image_uris.large}}" class="card-size" (load)="changeLoaded()">
+        <img *ngIf="sideShown" src="{{cardInfo.card_faces[0].image_uris.large}}" class="card-size">
+        <img *ngIf="!sideShown" src="{{cardInfo.card_faces[1].image_uris.large}}" class="card-size">
         <br>
         <br>
       </div>
-      <img *ngIf="cardInfo.image_uris != undefined" src="{{cardInfo.image_uris.large}}" class="card-size" (load)="changeLoaded()">
+      <img *ngIf="cardInfo.image_uris != undefined" src="{{cardInfo.image_uris.large}}" class="card-size">
     </div>
     <div *ngIf="cardInfo.image_uris == undefined" class="text-center">
       <button class="flip-button" ion-button icon-only (click)="changeSide()">
