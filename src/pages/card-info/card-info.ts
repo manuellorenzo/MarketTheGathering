@@ -122,27 +122,28 @@ export class CardInfoPage {
     ];
     for (let i = 0; i < 21; i++) {
       symbols.push({
-        "{" + i + "}": i);
+        "{" + i + "}": i
+      });
     }
-  }
-  console.log(JSON.stringify(symbols));
-for (let symbol of symbols) {
-  let regex = new RegExp("\\" + symbol, "g");
-  console.log("Symbol: " + symbol);
-  if (oldText.indexOf(symbol)) {
-    oldText = oldText.replace(regex, '<i class="ms ms- ms-cost ms-shadow"></i>');
-  }
-}
-if (oldText.indexOf("{½}")) {
-  let regex = new RegExp("{½}", "g");
-  oldText = oldText.replace(regex, '<i class="ms ms-1-2"></i>');
-}
-if (oldText.indexOf("{∞}")) {
-  let regex = new RegExp("{∞}", "g");
-  oldText = oldText.replace(regex, '<i class="ms ms-infinity"></i>');
-}
-this.cardInfo.oracle_text = oldText;
-this.loadComplete = true;
-this.loading.dismiss();
+
+    console.log(JSON.stringify(symbols));
+    for (let symbol of symbols) {
+      let regex = new RegExp("\\" + symbol, "g");
+      console.log("Symbol: " + symbol);
+      if (oldText.indexOf(symbol)) {
+        oldText = oldText.replace(regex, '<i class="ms ms- ms-cost ms-shadow"></i>');
+      }
+    }
+    if (oldText.indexOf("{½}")) {
+      let regex = new RegExp("{½}", "g");
+      oldText = oldText.replace(regex, '<i class="ms ms-1-2"></i>');
+    }
+    if (oldText.indexOf("{∞}")) {
+      let regex = new RegExp("{∞}", "g");
+      oldText = oldText.replace(regex, '<i class="ms ms-infinity"></i>');
+    }
+    this.cardInfo.oracle_text = oldText;
+    this.loadComplete = true;
+    this.loading.dismiss();
   }
 }
