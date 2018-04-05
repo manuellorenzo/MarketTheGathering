@@ -19,7 +19,7 @@ import 'rxjs/add/observable/throw';
 @IonicPage()
 @Component({
   selector: 'page-card-info',
-  templateUrl: 'card-info.html',
+  templateUrl: 'card-info.html'
 })
 export class CardInfoPage {
 
@@ -55,8 +55,7 @@ export class CardInfoPage {
       console.log(error);
       return Observable.throw(error);
     }).finally(() => {
-      this.loadComplete = true;
-      this.loading.dismiss();
+      this.transformOracleText();
     }).subscribe();
   }
 
@@ -109,6 +108,41 @@ export class CardInfoPage {
       return 'Banned';
     } else if (oldFormat === 'not_legal') {
       return 'Not legal';
+    } else if (oldFormat === 'restricted') {
+      return 'Restricted';
     }
+  }
+
+  transformOracleText() {
+    let oldText: string = this.cardInfo.oracle_text;
+    let newText: string = "";
+    let symbols = [
+      { "{W}": "w" }, { "{U}": "u" }, { "{B}": "b" }, { "{R}": "r" }, { "{G}": "g" }, { "{C}": "c" },
+      { "{P}": "p" }, { "{S}": "s" }, { "{X}": "x" }, { "{Y}": "y" }, { "{Z}": "z" }, { "{½}": "1-2" }, { "{∞}": "infinity" }, { "{100}": "100" }, { "{1000000}": "1000000" }, { "{e}": "e" }
+    ];
+    for (let i = 0; i < 21; i++) {
+      symbols.push({
+        "{" + i + "}": i);
+    }
+  }
+  console.log(JSON.stringify(symbols));
+for (let symbol of symbols) {
+  let regex = new RegExp("\\" + symbol, "g");
+  console.log("Symbol: " + symbol);
+  if (oldText.indexOf(symbol)) {
+    oldText = oldText.replace(regex, '<i class="ms ms- ms-cost ms-shadow"></i>');
+  }
+}
+if (oldText.indexOf("{½}")) {
+  let regex = new RegExp("{½}", "g");
+  oldText = oldText.replace(regex, '<i class="ms ms-1-2"></i>');
+}
+if (oldText.indexOf("{∞}")) {
+  let regex = new RegExp("{∞}", "g");
+  oldText = oldText.replace(regex, '<i class="ms ms-infinity"></i>');
+}
+this.cardInfo.oracle_text = oldText;
+this.loadComplete = true;
+this.loading.dismiss();
   }
 }

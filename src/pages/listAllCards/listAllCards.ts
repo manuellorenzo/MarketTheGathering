@@ -35,7 +35,7 @@ export class listAllCardsPage {
   private loading;
   private loadingPages;
   private nextPage = null;
-  constructor(public navCtrl: NavController, public navParams: NavParams, 
+  constructor(public navCtrl: NavController, public navParams: NavParams,
     public _apiScryfallProvider: ApiScryfallProvider, public loadingCtrl: LoadingController) {
   }
 
@@ -67,7 +67,6 @@ export class listAllCardsPage {
   }
 
   getCardsByPage(infiniteScroll) {
-    console.log("Enter cards by page: "+this.nextPage);
     this.loadingPages = true;
     if (this.nextPage === null) {
       this._apiScryfallProvider.getCardsByPage(1).pipe(
@@ -94,6 +93,13 @@ export class listAllCardsPage {
               backImage: String(card.card_faces[1].image_uris.small),
               cardId: card.id
             });
+          }else{
+            this.items.push({
+              name: String(card.name),
+              frontImage: "",
+              backImage: "",
+              cardId: card.id
+            });
           }
         })
       ).finally(() => {
@@ -106,8 +112,8 @@ export class listAllCardsPage {
         console.log(error);
         return Observable.throw(error);
       }).subscribe();
-    } else if(this.nextPage != undefined) {
-      console.log("Enter not undefined: "+this.nextPage);
+    } else if (this.nextPage != undefined) {
+      console.log("Enter not undefined: " + this.nextPage);
       this._apiScryfallProvider.getCardByUrl(this.nextPage).pipe(
         map((result: any) => {
           this.nextPage = result.next_page;
@@ -140,14 +146,16 @@ export class listAllCardsPage {
         if (infiniteScroll != null) {
           infiniteScroll.complete();
         }
+        console.log("Finally undefined");
       }).catch((error) => {
         console.log(error);
         return Observable.throw(error);
       }).subscribe();
-    }else{
+    } else {
       if (infiniteScroll != null) {
-        infiniteScroll.complete();
-      }    }
+        console.log("Else infinitescroll: " + infiniteScroll.complete());
+      }
+    }
   }
 
   getCardByName(searchBar) {
@@ -175,6 +183,13 @@ export class listAllCardsPage {
               name: String(card.name),
               frontImage: String(card.card_faces[0].image_uris.small),
               backImage: String(card.card_faces[1].image_uris.small),
+              cardId: card.id
+            });
+          }else{
+            this.items.push({
+              name: String(card.name),
+              frontImage: "",
+              backImage: "",
               cardId: card.id
             });
           }

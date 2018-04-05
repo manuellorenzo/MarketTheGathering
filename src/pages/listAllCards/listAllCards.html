@@ -17,7 +17,7 @@
     </button>
   </ion-list>
 
-  <ion-infinite-scroll (ionInfinite)="loadMorePages($event)">
+  <ion-infinite-scroll *ngIf="nextPage != undefined" (ionInfinite)="loadMorePages($event)">
     <ion-infinite-scroll-content></ion-infinite-scroll-content>
   </ion-infinite-scroll>
 </ion-content>
