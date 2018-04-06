@@ -37,6 +37,9 @@
       </button>
     </div>
     <div>
+      <p class="oracle-text" [innerHtml]="cardInfo.mana_cost"></p>
+    </div>
+    <div>
       <div *ngIf="cardInfo.image_uris == undefined && cardInfo.card_faces">
         <p class="oracle-text" *ngIf="sideShown" [innerHtml]="cardInfo.card_faces[0].oracle_text"></p>
         <p class="oracle-text" *ngIf="!sideShown" [innerHtml]="cardInfo.card_faces[1].oracle_text"></p>

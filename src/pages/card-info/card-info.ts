@@ -49,13 +49,20 @@ export class CardInfoPage {
     this._apiScryfallProvider.getCardById(this.cardId).pipe(
       map((card: any) => {
         this.cardInfo = card;
-        console.log(JSON.stringify(this.cardInfo));
       })
     ).catch((error) => {
       console.log(error);
       return Observable.throw(error);
     }).finally(() => {
-      this.transformOracleText();
+      if (this.cardInfo.card_faces != undefined) {
+        this.cardInfo.card_faces[1].oracle_text = this.transformSymbols(this.cardInfo.card_faces[1].oracle_text);
+        this.cardInfo.card_faces[0].oracle_text = this.transformSymbols(this.cardInfo.card_faces[0].oracle_text);
+      }else{
+        this.cardInfo.oracle_text = this.transformSymbols(this.cardInfo.oracle_text);
+      }
+      this.cardInfo.mana_cost = this.transformSymbols(this.cardInfo.mana_cost);
+      this.loadComplete = true;
+      this.loading.dismiss();
     }).subscribe();
   }
 
@@ -113,35 +120,35 @@ export class CardInfoPage {
     }
   }
 
-  transformOracleText() {
-    let oldText: string = this.cardInfo.oracle_text;
-    let newText: string = "";
-    let symbols = [
+  transformSymbols(texto: string) {
+    let oldText: string = texto;
+    let symbols: { [s: string]: string; }[] = [
       { "{W}": "w" }, { "{U}": "u" }, { "{B}": "b" }, { "{R}": "r" }, { "{G}": "g" }, { "{C}": "c" },
-      { "{P}": "p" }, { "{S}": "s" }, { "{X}": "x" }, { "{Y}": "y" }, { "{Z}": "z" }, { "{½}": "1-2" }, { "{∞}": "infinity" }, { "{100}": "100" }, { "{1000000}": "1000000" }, { "{e}": "e" }
+      { "{P}": "p" }, { "{S}": "s" }, { "{X}": "x" }, { "{Y}": "y" }, { "{Z}": "z" }, { "{½}": "1-2" }, { "{∞}": "infinity" },
+      { "{100}": "100" }, { "{1000000}": "1000000" }, { "{e}": "e" },
+      { "{T}": "tap" }, { "{Q}": "untap" }, { "{PW}": "planeswalker" }, { "{W/U}": "wu ms-split" },
+      { "{W/B}": "wb ms-split" }, { "{B/R}": "br ms-split" }, { "{B/G}": "bg ms-split" },
+      { "{U/B}": "ub ms-split" }, { "{U/R}": "ur ms-split" }, { "{R/G}": "rg ms-split" },
+      { "{R/W}": "rw ms-split" }, { "{G/W}": "gw ms-split" }, { "{G/U}": "gu ms-split" },
+      { "{2/W}": "2w ms-split" }, { "{2/U}": "2u ms-split" }, { "{2/B}": "2b ms-split" },
+      { "{2/R}": "2r ms-split" }, { "{2/G}": "wu ms-split" }, { "{W/P}": "wp" },
+      { "{B/P}": "bp" }, { "{U/P}": "up" }, { "{R/P}": "rp" }, { "{G/P}": "up" },
     ];
+    let symbolKey: string;
+    let symbolValue: string;
     for (let i = 0; i < 21; i++) {
-      symbols["{"+i+"}"] = i;
+      symbolKey = String("{" + i + "}");
+      symbolValue = String(i);
+      let symbolObj: { [s: string]: string; } = {};
+      symbolObj[symbolKey] = symbolValue;
+      symbols.push(symbolObj);
     }
-
-    console.log(JSON.stringify(symbols));
     for (let symbol of symbols) {
-      let regex = new RegExp("\\" + symbol, "g");
-      console.log("Symbol: " + symbol);
+      let regex = new RegExp("\\" + Object.keys(symbol)[0], "g");
       if (oldText.indexOf(String(symbol))) {
-        oldText = oldText.replace(regex, '<i class="ms ms- ms-cost ms-shadow"></i>');
+        oldText = oldText.replace(regex, '<i class="ms ms-' + symbol[Object.keys(symbol)[0]] + ' ms-cost ms-shadow"></i>');
       }
     }
-    if (oldText.indexOf("{½}")) {
-      let regex = new RegExp("{½}", "g");
-      oldText = oldText.replace(regex, '<i class="ms ms-1-2"></i>');
-    }
-    if (oldText.indexOf("{∞}")) {
-      let regex = new RegExp("{∞}", "g");
-      oldText = oldText.replace(regex, '<i class="ms ms-infinity"></i>');
-    }
-    this.cardInfo.oracle_text = oldText;
-    this.loadComplete = true;
-    this.loading.dismiss();
+    return oldText;
   }
 }
