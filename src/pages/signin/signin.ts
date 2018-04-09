@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angu
 import { HomePage } from '../home/home';
 import { ApiRestProvider } from '../../providers/api-rest/api-rest';
 import { Storage } from '@ionic/storage';
+import { RegisterPage } from '../register/register';
 
 /**
  * Generated class for the SigninPage page.
@@ -41,6 +42,9 @@ export class SigninPage {
     });
   }
 
+  registerPage(){
+    this.navCtrl.push(RegisterPage);
+  }
 
   errorAlert() {
     let alert = this.alertCtrl.create({

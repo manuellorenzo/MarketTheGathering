@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import urls from '../../globals/url';
 
@@ -18,6 +18,10 @@ export class ApiRestProvider {
   public login(username: string, password: string) {
     console.log(username+"--"+password);
     return this.http.post(urls.apiRest + "/login", { 'username': username, 'password': password });
+  }
+
+  public register(email:string,username:string,password:string){
+    return this.http.post(urls.apiRest+"/addUser", {'email': email, 'username': username, 'password': password});
   }
 
 }
