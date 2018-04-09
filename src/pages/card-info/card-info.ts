@@ -56,11 +56,13 @@ export class CardInfoPage {
     }).finally(() => {
       if (this.cardInfo.card_faces != undefined) {
         this.cardInfo.card_faces[1].oracle_text = this.transformSymbols(this.cardInfo.card_faces[1].oracle_text);
+        this.cardInfo.card_faces[1].mana_cost = this.transformSymbols(this.cardInfo.card_faces[1].mana_cost);
         this.cardInfo.card_faces[0].oracle_text = this.transformSymbols(this.cardInfo.card_faces[0].oracle_text);
+        this.cardInfo.card_faces[0].mana_cost = this.transformSymbols(this.cardInfo.card_faces[0].mana_cost);
       }else{
         this.cardInfo.oracle_text = this.transformSymbols(this.cardInfo.oracle_text);
+        this.cardInfo.mana_cost = this.transformSymbols(this.cardInfo.mana_cost);
       }
-      this.cardInfo.mana_cost = this.transformSymbols(this.cardInfo.mana_cost);
       this.loadComplete = true;
       this.loading.dismiss();
     }).subscribe();

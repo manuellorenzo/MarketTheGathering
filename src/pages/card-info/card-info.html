@@ -49,7 +49,13 @@
       </div>
     </div>
     <div>
-      <p></p>
+      <div *ngIf="cardInfo.image_uris == undefined && cardInfo.card_faces">
+        <p class="oracle-text" *ngIf="sideShown && cardInfo.card_faces[0].type_line.includes('Creature')">{{cardInfo.card_faces[0].power}}/{{cardInfo.card_faces[0].toughness}}</p>
+        <p class="oracle-text" *ngIf="!sideShown && cardInfo.card_faces[1].type_line.includes('Creature')">{{cardInfo.card_faces[1].power}}/{{cardInfo.card_faces[1].toughness}}</p>
+      </div>
+      <div *ngIf="cardInfo.image_uris != undefined && cardInfo.type_line.includes('Creature')">
+        <p class="oracle-text">{{cardInfo.power}}/{{cardInfo.toughness}}</p>
+      </div>
     </div>
   </div>
 </ion-content>
