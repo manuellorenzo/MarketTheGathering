@@ -8,7 +8,7 @@ import { Storage } from '@ionic/storage';
   templateUrl: 'home.html'
 })
 export class HomePage {
-  public username;
+  public email;
   constructor(public navCtrl: NavController, public _apiScryfallProvider: ApiScryfallProvider, private storage: Storage) {
 
   }

@@ -17,11 +17,10 @@ import { AuthProvider } from '../../providers/auth/auth';
 })
 export class RegisterPage {
 
-  public username: string = "";
   public password: string = "";
   public email: string = "";
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private _apiRest: ApiRestProvider, private alertCtrl: AlertController,
+  constructor(public navCtrl: NavController, public navParams: NavParams, private alertCtrl: AlertController,
     private auth: AuthProvider) {
   }
 
@@ -31,12 +30,15 @@ export class RegisterPage {
 
   register() {
     let credentials = {
-      email: this.username,
+      email: this.email,
       password: this.password
     };
     this.auth.signUp(credentials).then(
       () => this.navCtrl.pop(),
-      error => this.errorAlert()
+      error => {
+        console.log("ERROR AL REGISTRAR:"+error);
+        this.errorAlert();
+      }
     );
   }
 

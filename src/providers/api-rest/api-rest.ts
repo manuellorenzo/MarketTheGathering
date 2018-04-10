@@ -15,13 +15,4 @@ export class ApiRestProvider {
     console.log('Hello ApiRestProvider Provider');
   }
 
-  public login(username: string, password: string) {
-    console.log(username+"--"+password);
-    return this.http.post(urls.apiRest + "/login", { 'username': username, 'password': password });
-  }
-
-  public register(email:string,username:string,password:string){
-    return this.http.post(urls.apiRest+"/addUser", {'email': email, 'username': username, 'password': password});
-  }
-
 }

@@ -20,9 +20,9 @@ import { ResetPasswordPage } from '../reset-password/reset-password';
 })
 export class SigninPage {
 
-  public username: string = "";
+  public email: string = "";
   public password: string = "";
-  constructor(public navCtrl: NavController, public navParams: NavParams, public _apiRestProvider: ApiRestProvider,
+  constructor(public navCtrl: NavController, public navParams: NavParams,
     private alertCtrl: AlertController, private storage: Storage, private menuController: MenuController, private auth: AuthProvider) {
     menuController.enable(false);
   }
@@ -31,24 +31,9 @@ export class SigninPage {
     console.log('ionViewDidLoad SigninPage');
   }
 
-  /*login() {
-    this._apiRestProvider.login(this.username, this.password).subscribe((result: any) => {
-      console.log(JSON.stringify(result));
-      if (result.code === 200) {
-        this.storage.set('username', result.username).then(() => {
-          this.storage.set('_id', result._id).then(() => {
-            this.navCtrl.setRoot(HomePage);
-          });
-        });
-      } else {
-        this.errorAlert();
-      }
-    });
-  }*/
-
   login(): void {
     let credentials = {
-      email: this.username,
+      email: this.email,
       password: this.password
     };
     this.auth.signInWithEmail(credentials)
@@ -68,7 +53,9 @@ export class SigninPage {
           this.navCtrl.setRoot(HomePage);
           this.menuController.enable(true);
         },
-        (error) => { this.errorAlert() }
+        (error) => { 
+          console.log("ERROR AL LOGIN WITH GOOGLE: "+error);
+          this.errorAlert(); }
       );
   }
 
