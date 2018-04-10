@@ -14,10 +14,7 @@ export class HomePage {
   }
 
   ngOnInit() {
-    this.storage.get('username').then((username) => {
-      this.username = username;
-    }
-    );
+
   }
 
 }

@@ -16,8 +16,13 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { ApiScryfallProvider } from '../providers/api-scryfall/api-scryfall';
 import { ApiRestProvider } from '../providers/api-rest/api-rest';
+import { OAuthService, UrlHelperService } from 'angular-oauth2-oidc';
 
-
+import { AngularFireModule } from 'angularfire2';
+import { AngularFireAuth } from 'angularfire2/auth';
+import { firebaseConfig } from '../globals/firebaseConfig';
+import { AuthProvider } from '../providers/auth/auth';
+import { ResetPasswordPage } from '../pages/reset-password/reset-password';
 
 @NgModule({
   declarations: [
@@ -26,13 +31,15 @@ import { ApiRestProvider } from '../providers/api-rest/api-rest';
     listAllCardsPage,
     CardInfoPage,
     SigninPage,
-    RegisterPage
+    RegisterPage,
+    ResetPasswordPage
   ],
   imports: [
     BrowserModule,
     IonicModule.forRoot(MyApp),
     HttpClientModule,
-    IonicStorageModule.forRoot()
+    IonicStorageModule.forRoot(),
+    AngularFireModule.initializeApp(firebaseConfig.fire)
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -41,15 +48,20 @@ import { ApiRestProvider } from '../providers/api-rest/api-rest';
     listAllCardsPage,
     CardInfoPage,
     SigninPage,
-    RegisterPage
+    RegisterPage,
+    ResetPasswordPage
   ],
   providers: [
     StatusBar,
     SplashScreen,
-    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    { provide: ErrorHandler, useClass: IonicErrorHandler },
     ApiScryfallProvider,
     HttpClientModule,
-    ApiRestProvider
+    ApiRestProvider,
+    OAuthService,
+    UrlHelperService,
+    AngularFireAuth,
+    AuthProvider
   ]
 })
-export class AppModule {}
+export class AppModule { }

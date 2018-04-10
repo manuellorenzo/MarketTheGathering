@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
 import { ApiRestProvider } from '../../providers/api-rest/api-rest';
+import { AuthProvider } from '../../providers/auth/auth';
 
 /**
  * Generated class for the RegisterPage page.
@@ -20,22 +21,32 @@ export class RegisterPage {
   public password: string = "";
   public email: string = "";
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private _apiRest: ApiRestProvider) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private _apiRest: ApiRestProvider, private alertCtrl: AlertController,
+    private auth: AuthProvider) {
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad RegisterPage');
   }
 
-  public register() {
-    this._apiRest.register(this.email, this.username, this.password).subscribe((result:any) => {
-      if(result.code === 200){
-        console.log("Sucess");
-      }else{
-        console.log(JSON.stringify(result));
-      }
-    })
+  register() {
+    let credentials = {
+      email: this.username,
+      password: this.password
+    };
+    this.auth.signUp(credentials).then(
+      () => this.navCtrl.pop(),
+      error => this.errorAlert()
+    );
   }
 
+  errorAlert() {
+    let alert = this.alertCtrl.create({
+      title: 'Error',
+      subTitle: 'Empty fields',
+      buttons: ['Dismiss']
+    });
+    alert.present();
+  }
 
 }
