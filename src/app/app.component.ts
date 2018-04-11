@@ -18,6 +18,8 @@ export class MyApp {
 
   pages: Array<{ title: string, component: any }>;
 
+  private isAnonymous:boolean;
+  
   constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, private auth: AuthProvider, private menu:MenuController) {
     this.initializeApp();
 
@@ -60,7 +62,5 @@ export class MyApp {
 
   logout() {
     this.auth.signOut();
-    this.nav.setRoot(SigninPage);
-    this.nav.popToRoot();
   }
 }

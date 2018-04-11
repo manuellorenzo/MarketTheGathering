@@ -28,7 +28,18 @@ export class ResetPasswordPage {
 
   resetPassword() {
     this.auth.resetPassword(this.email).then(authService => {
-      this.navCtrl.setRoot(SigninPage);
+      let alert = this.alertCtrl.create({
+        message: 'Reset password email sent',
+        buttons: [
+          {
+            text: "Ok",
+            role: 'cancel'
+          }
+        ]
+      });
+      alert.present().then(()=>{
+        this.navCtrl.pop();
+      });
     }, error => {
       let alert = this.alertCtrl.create({
         message: error.message,

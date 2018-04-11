@@ -38,25 +38,35 @@ export class SigninPage {
     };
     this.auth.signInWithEmail(credentials)
       .then(
-        () => {
+        (user) => {
+          this.auth.setAnonymous(user.isAnonymous);
           this.navCtrl.setRoot(HomePage);
           this.menuController.enable(true);
         },
-        (error) => { this.errorAlert() }
+        (error) => { this.errorAlert(error) }
       );
   }
 
   loginWithGoogle() {
     this.auth.signInWithGoogle()
       .then(
-        () => {
+        (user) => {
+          this.auth.setAnonymous(user.isAnonymous);
           this.navCtrl.setRoot(HomePage);
           this.menuController.enable(true);
         },
         (error) => { 
-          console.log("ERROR AL LOGIN WITH GOOGLE: "+error);
-          this.errorAlert(); }
+          this.errorAlert(error); }
       );
+  }
+
+  loginAnonymous(){
+    this.auth.signAnonymous().then((user)=>{
+      console.log(JSON.stringify(user));
+      this.auth.setAnonymous(user.isAnonymous);
+    }).catch((error)=>{
+      console.log("Anonymous error: "+error);
+    })
   }
 
   resetPassword(){
@@ -66,10 +76,10 @@ export class SigninPage {
     this.navCtrl.push(RegisterPage);
   }
 
-  errorAlert() {
+  errorAlert(error:any) {
     let alert = this.alertCtrl.create({
       title: 'Error',
-      subTitle: 'Wrong credentials',
+      subTitle: error.message,
       buttons: ['Dismiss']
     });
     alert.present();

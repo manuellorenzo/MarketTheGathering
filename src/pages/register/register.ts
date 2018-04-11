@@ -34,18 +34,26 @@ export class RegisterPage {
       password: this.password
     };
     this.auth.signUp(credentials).then(
-      () => this.navCtrl.pop(),
+      () => {
+        this.navCtrl.pop();
+        let alert = this.alertCtrl.create({
+          title: 'Error',
+          subTitle: 'Account created sucessfully',
+          buttons: ['Dismiss']
+        });
+        alert.present();
+      },
       error => {
-        console.log("ERROR AL REGISTRAR:"+error);
-        this.errorAlert();
+        console.log("ERROR AL REGISTRAR:" + error);
+        this.errorAlert(error);
       }
     );
   }
 
-  errorAlert() {
+  errorAlert(error: any) {
     let alert = this.alertCtrl.create({
       title: 'Error',
-      subTitle: 'Empty fields',
+      subTitle: error.message,
       buttons: ['Dismiss']
     });
     alert.present();
