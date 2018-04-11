@@ -10,8 +10,8 @@
       <button menuClose ion-item *ngFor="let p of pages" (click)="openPage(p)">
         {{p.title}}
       </button>
-      <ion-item *ngIf="auth.getAnonymous() != true">My wants</ion-item>
-      <ion-item (click)="logout()">Logout</ion-item>
+      <button menuClose ion-item *ngIf="auth.getAnonymous() != true" (click)="myWantsPage()">My wants</button>
+      <button menuClose ion-item (click)="logout()">Logout</button>
     </ion-list>
   </ion-content>
 

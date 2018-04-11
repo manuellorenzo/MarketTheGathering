@@ -9,12 +9,21 @@
 
 <ion-content>
   <ion-list>
-    <button ion-item *ngFor="let item of items" (click)="showCardInfo(item.cardId)">
-      <ion-avatar item-start approxItemHeight="204px" approxItemWidth="146px">
-        <img src="{{item.frontImage}}">
-      </ion-avatar>
-      {{item.name}}
-    </button>
+    <ion-item-sliding *ngFor="let item of items">
+      <ion-item (click)="showCardInfo(item.cardId)">
+        <button ion-item >
+          <ion-avatar item-start approxItemHeight="204px" approxItemWidth="146px">
+            <img src="{{item.frontImage}}">
+          </ion-avatar>
+          {{item.name}}
+        </button>
+      </ion-item>
+      <ion-item-options side="right">
+        <button ion-button color="success" (click)="showAlertChooseList(item.cardId)">
+          <ion-icon name="add"></ion-icon>
+        </button>
+      </ion-item-options>
+    </ion-item-sliding>
   </ion-list>
 
   <ion-infinite-scroll *ngIf="nextPage != undefined" (ionInfinite)="loadMorePages($event)">

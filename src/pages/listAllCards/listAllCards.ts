@@ -1,12 +1,15 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, LoadingController } from 'ionic-angular';
+import { NavController, NavParams, LoadingController, AlertController } from 'ionic-angular';
 
 import { ApiScryfallProvider } from '../../providers/api-scryfall/api-scryfall';
 import { CardInfoPage } from '../card-info/card-info';
 
 import { Observable } from 'rxjs/Observable';
-import { map, concatMap } from 'rxjs/operators';
+import { map, concatMap, tap, mergeMap } from 'rxjs/operators';
 import 'rxjs/add/operator/finally';
+import { MyWantsProvider } from '../../providers/my-wants/my-wants';
+import { AuthProvider } from '../../providers/auth/auth';
+import { switchMap } from 'rxjs/operator/switchMap';
 
 @Component({
   selector: 'listAllCards-page',
@@ -36,7 +39,8 @@ export class listAllCardsPage {
   private loadingPages;
   private nextPage = null;
   constructor(public navCtrl: NavController, public navParams: NavParams,
-    public _apiScryfallProvider: ApiScryfallProvider, public loadingCtrl: LoadingController) {
+    public _apiScryfallProvider: ApiScryfallProvider, public loadingCtrl: LoadingController, public alertCtrl: AlertController,
+    private myWants: MyWantsProvider, private auth: AuthProvider) {
   }
 
   ngOnInit() {
@@ -93,7 +97,7 @@ export class listAllCardsPage {
               backImage: String(card.card_faces[1].image_uris.small),
               cardId: card.id
             });
-          }else{
+          } else {
             this.items.push({
               name: String(card.name),
               frontImage: "",
@@ -185,7 +189,7 @@ export class listAllCardsPage {
               backImage: String(card.card_faces[1].image_uris.small),
               cardId: card.id
             });
-          }else{
+          } else {
             this.items.push({
               name: String(card.name),
               frontImage: "",
@@ -216,5 +220,69 @@ export class listAllCardsPage {
 
   showCardInfo(cardId: string) {
     this.navCtrl.push(CardInfoPage, { 'cardId': cardId });
+  }
+
+  showAlertChooseList(idCard: string) {
+    let alert = this.alertCtrl.create();
+    alert.setTitle('Lists');
+    this.myWants.findMyWantsListByIdUser(this.auth.getUID()).pipe(
+      map((result: any) => {
+        return result.data;
+      }),
+      concatMap((resultData: any) => {
+        return resultData;
+      }),
+      map((cards: any) => {
+        console.log(cards);
+        alert.addInput({
+          type: 'checkbox',
+          label: cards.name,
+          value: cards._id,
+          checked: false
+        })
+      })).finally(() => {
+        alert.addButton('Cancel');
+        alert.addButton({
+          text: 'Okay',
+          handler: data => {
+            console.log('Checkbox data:', data);
+            if (data.length > 0) {
+              for (let list of data) {
+                this.addCardToList(list, idCard);
+              }
+            }
+          }
+        });
+        alert.present();
+      }).subscribe();
+  }
+
+  addCardToList(id: string, idCard: string) {
+    let cards: any = [];
+    this.myWants.findMyWantsListById(id).pipe(
+      mergeMap((result: any) => {
+        cards = result.cards;
+        if (!cards.some(card => card.idCard === idCard)) {
+          cards.push({ 'idCard': idCard });
+          console.log("Nuevas cartitas: " + JSON.stringify(cards));
+          return this.myWants.updateMyWantsList(result._id, result.name, cards);
+        } else {
+          this.messageAlert("ERROR", "This card is already in that list");
+          return Observable.of();
+        }
+      }),
+      tap((result: any) => {
+        this.messageAlert("SUCCESS","Card added successfully");
+      })
+    ).subscribe();
+  }
+
+  messageAlert(title: string, subtitle: string) {
+    let alert = this.alertCtrl.create({
+      title: title,
+      subTitle: subtitle,
+      buttons: ['Dismiss']
+    });
+    alert.present();
   }
 }

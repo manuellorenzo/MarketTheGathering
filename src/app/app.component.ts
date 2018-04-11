@@ -8,6 +8,7 @@ import { listAllCardsPage } from '../pages/listAllCards/listAllCards';
 import { SigninPage } from '../pages/signin/signin';
 
 import { AuthProvider } from '../providers/auth/auth';
+import { MyWantsPage } from '../pages/my-wants/my-wants';
 @Component({
   templateUrl: 'app.html'
 })
@@ -18,9 +19,9 @@ export class MyApp {
 
   pages: Array<{ title: string, component: any }>;
 
-  private isAnonymous:boolean;
-  
-  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, private auth: AuthProvider, private menu:MenuController) {
+  private isAnonymous: boolean;
+
+  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, private auth: AuthProvider, private menu: MenuController) {
     this.initializeApp();
 
     // used for an example of ngFor and navigation
@@ -41,6 +42,7 @@ export class MyApp {
         .subscribe(
           user => {
             if (user) {
+              this.auth.setAnonymous(user.isAnonymous);    
               this.rootPage = HomePage;
               this.menu.enable(true);
             } else {
@@ -62,5 +64,9 @@ export class MyApp {
 
   logout() {
     this.auth.signOut();
+  }
+
+  myWantsPage(){
+    this.nav.setRoot(MyWantsPage);
   }
 }

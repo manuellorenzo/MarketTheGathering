@@ -1,5 +1,5 @@
 var urls = {
   scryfall: 'https://api.scryfall.com/',
-  apiRest: 'http://localhost:3000/users/'
+  myWantsListAPI: 'http://localhost:3000/myWants/'
 };
 export default urls;

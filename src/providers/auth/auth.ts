@@ -39,6 +39,9 @@ export class AuthProvider {
 		return this.user && this.user.email;
 	}
 
+	getUID(){
+		return this.user.uid;
+	}
 	getAnonymous(){
 		return this.isAnonymous;
 	}
@@ -46,6 +49,8 @@ export class AuthProvider {
 	setAnonymous(isAnonymous:boolean){
 		this.isAnonymous = isAnonymous;
 	}
+
+
 	signOut(): Promise<void> {
 		return this.afAuth.auth.signOut();
 	}
