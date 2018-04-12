@@ -34,7 +34,7 @@ export class listAllCardsPage {
 
   selectedItem: any;
   icons: string[];
-  items: Array<{ name: string, frontImage: string, backImage: string, cardId: string }>;
+  items: Array<{ name: string, frontImage: string, backImage: string, idCard: string }>;
   private loading;
   private loadingPages;
   private nextPage = null;
@@ -88,21 +88,21 @@ export class listAllCardsPage {
               name: String(card.name),
               frontImage: String(card.image_uris.small),
               backImage: "",
-              cardId: card.id
+              idCard: card.id
             });
           } else if (card.card_faces != undefined && card.card_faces != null) {
             this.items.push({
               name: String(card.name),
               frontImage: String(card.card_faces[0].image_uris.small),
               backImage: String(card.card_faces[1].image_uris.small),
-              cardId: card.id
+              idCard: card.id
             });
           } else {
             this.items.push({
               name: String(card.name),
               frontImage: "",
               backImage: "",
-              cardId: card.id
+              idCard: card.id
             });
           }
         })
@@ -133,14 +133,14 @@ export class listAllCardsPage {
               name: String(card.name),
               frontImage: String(card.image_uris.small),
               backImage: "",
-              cardId: card.id
+              idCard: card.id
             });
           } else if (card.card_faces != undefined && card.card_faces != null) {
             this.items.push({
               name: String(card.name),
               frontImage: String(card.card_faces[0].image_uris.small),
               backImage: String(card.card_faces[1].image_uris.small),
-              cardId: card.id
+              idCard: card.id
             });
           }
         })
@@ -180,21 +180,21 @@ export class listAllCardsPage {
               name: String(card.name),
               frontImage: String(card.image_uris.small),
               backImage: "",
-              cardId: card.id
+              idCard: card.id
             });
           } else if (card.card_faces != undefined && card.card_faces != null) {
             this.items.push({
               name: String(card.name),
               frontImage: String(card.card_faces[0].image_uris.small),
               backImage: String(card.card_faces[1].image_uris.small),
-              cardId: card.id
+              idCard: card.id
             });
           } else {
             this.items.push({
               name: String(card.name),
               frontImage: "",
               backImage: "",
-              cardId: card.id
+              idCard: card.id
             });
           }
         })
@@ -218,8 +218,8 @@ export class listAllCardsPage {
     }
   }
 
-  showCardInfo(cardId: string) {
-    this.navCtrl.push(CardInfoPage, { 'cardId': cardId });
+  showCardInfo(idCard: string) {
+    this.navCtrl.push(CardInfoPage, { 'idCard': idCard });
   }
 
   showAlertChooseList(idCard: string) {

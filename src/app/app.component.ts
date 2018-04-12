@@ -20,6 +20,7 @@ export class MyApp {
   pages: Array<{ title: string, component: any }>;
 
   private isAnonymous: boolean;
+	private displayName:string;
 
   constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, private auth: AuthProvider, private menu: MenuController) {
     this.initializeApp();
@@ -42,10 +43,16 @@ export class MyApp {
         .subscribe(
           user => {
             if (user) {
-              this.auth.setAnonymous(user.isAnonymous);    
+              this.auth.setAnonymous(user.isAnonymous);   
+              if(this.auth.getAnonymous() == true){
+                this.displayName = "Anonymous"
+              }else{
+                this.displayName = this.auth.getDisplayName();
+              }   
               this.rootPage = HomePage;
               this.menu.enable(true);
             } else {
+              this.displayName = "Anonymous"
               this.rootPage = SigninPage;
             }
           },

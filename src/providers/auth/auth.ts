@@ -14,7 +14,7 @@ export class AuthProvider {
 
 	private user: firebase.User;
 	private isAnonymous: boolean;
-
+		
 	constructor(public afAuth: AngularFireAuth) {
 		afAuth.authState.subscribe(user => {
 			this.user = user;
@@ -31,6 +31,15 @@ export class AuthProvider {
 		return this.afAuth.auth.createUserWithEmailAndPassword(credentials.email, credentials.password);
 	}
 
+	getUser(){
+		return this.user;
+	}
+
+	getDisplayName(){
+		console.log(JSON.stringify(this.user.displayName));
+		return this.user.displayName;
+	}
+
 	getAuthenticated(): boolean {
 		return this.user !== null;
 	}
@@ -42,6 +51,7 @@ export class AuthProvider {
 	getUID(){
 		return this.user.uid;
 	}
+
 	getAnonymous(){
 		return this.isAnonymous;
 	}

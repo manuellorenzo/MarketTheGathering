@@ -31,7 +31,7 @@ export class MyWantsCardListPage {
     console.log('ionViewDidLoad MyWantsCardListPage');
   }
 
-  ngOnInit() {
+  ionViewDidEnter() {
     this.list = this.navParams.get('list');
     console.log(JSON.stringify(this.list));
     this.getCards(this.list.cards);

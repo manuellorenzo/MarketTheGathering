@@ -23,7 +23,7 @@ import 'rxjs/add/observable/throw';
 })
 export class CardInfoPage {
 
-  private cardId: string;
+  private idCard: string;
   private cardInfo: any = {};
   private loadComplete: boolean;
   private loading;
@@ -39,14 +39,14 @@ export class CardInfoPage {
     this.imagenLoaded = false;
     this.sideShown = true;
     this.loadComplete = false;
-    this.cardId = this.navParams.get('cardId');
+    this.idCard = this.navParams.get('idCard');
     this.createLoader();
     this.presentLoadingDefault();
     this.getCardById();
   }
 
   getCardById() {
-    this._apiScryfallProvider.getCardById(this.cardId).pipe(
+    this._apiScryfallProvider.getCardById(this.idCard).pipe(
       map((card: any) => {
         this.cardInfo = card;
       })

@@ -10,14 +10,14 @@
 <ion-content>
   <ion-list>
     <ion-item-sliding *ngFor="let item of items">
-      <ion-item (click)="showCardInfo(item.cardId)">
+      <ion-item (click)="showCardInfo(item.idCard)">
         <ion-avatar item-start approxItemHeight="204px" approxItemWidth="146px">
           <img src="{{item.frontImage}}">
         </ion-avatar>
         {{item.name}}
       </ion-item>
       <ion-item-options side="right">
-        <button ion-button color="success" (click)="showAlertChooseList(item.cardId)">
+        <button ion-button color="success" (click)="showAlertChooseList(item.idCard)">
           <ion-icon name="add"></ion-icon>
         </button>
       </ion-item-options>
