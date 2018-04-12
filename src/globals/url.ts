@@ -1,5 +1,5 @@
 var urls = {
   scryfall: 'https://api.scryfall.com/',
-  myWantsListAPI: 'http://localhost:3000/myWants/'
+  myWantsListAPI: 'https://protected-escarpment-27259.herokuapp.com/myWants/'
 };
 export default urls;
