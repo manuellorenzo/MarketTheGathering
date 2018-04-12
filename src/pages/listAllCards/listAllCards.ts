@@ -232,12 +232,12 @@ export class listAllCardsPage {
       concatMap((resultData: any) => {
         return resultData;
       }),
-      map((cards: any) => {
-        console.log(cards);
+      map((list: any) => {
+        console.log(list);
         alert.addInput({
           type: 'checkbox',
-          label: cards.name,
-          value: cards._id,
+          label: list.name,
+          value: list,
           checked: false
         })
       })).finally(() => {
@@ -257,9 +257,9 @@ export class listAllCardsPage {
       }).subscribe();
   }
 
-  addCardToList(id: string, idCard: string) {
+  addCardToList(list, idCard: string) {
     let cards: any = [];
-    this.myWants.findMyWantsListById(id).pipe(
+    this.myWants.findMyWantsListById(list._id).pipe(
       mergeMap((result: any) => {
         cards = result.cards;
         if (!cards.some(card => card.idCard === idCard)) {
@@ -267,7 +267,7 @@ export class listAllCardsPage {
           console.log("Nuevas cartitas: " + JSON.stringify(cards));
           return this.myWants.updateMyWantsList(result._id, result.name, cards);
         } else {
-          this.messageAlert("ERROR", "This card is already in that list");
+          this.messageAlert("ERROR", "This card is already in "+list.name);
           return Observable.of();
         }
       }),

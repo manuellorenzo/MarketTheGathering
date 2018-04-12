@@ -23,7 +23,7 @@
 <ion-content padding>
   <ion-list>
     <ion-item-sliding *ngFor="let list of lists">
-      <ion-item>
+      <ion-item (click) = "goTomyWantCardList(list)" >
         {{list.name}}
       </ion-item>
       <ion-item-options side="right">

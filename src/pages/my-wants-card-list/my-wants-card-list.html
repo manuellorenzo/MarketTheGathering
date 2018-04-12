@@ -1,0 +1,32 @@
+<!--
+  Generated template for the MyWantsCardListPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Card List</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <ion-list>
+    <ion-item-sliding *ngFor="let card of cards">
+      <ion-item (click)="showCardInfo(card.idCard)">
+        <ion-avatar item-start approxItemHeight="204px" approxItemWidth="146px">
+          <img src="{{card.frontImage}}">
+        </ion-avatar>
+        {{card.name}}
+      </ion-item>
+      <ion-item-options side="right">
+        <button ion-button color="danger" (click)="deleteCardFromList(card.idCard)">
+          <ion-icon name="trash"></ion-icon>
+        </button>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
+</ion-content>

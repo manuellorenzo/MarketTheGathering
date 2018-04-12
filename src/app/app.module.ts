@@ -24,6 +24,7 @@ import { AuthProvider } from '../providers/auth/auth';
 import { ResetPasswordPage } from '../pages/reset-password/reset-password';
 import { MyWantsProvider } from '../providers/my-wants/my-wants';
 import { MyWantsPage } from '../pages/my-wants/my-wants';
+import { MyWantsCardListPage } from '../pages/my-wants-card-list/my-wants-card-list';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { MyWantsPage } from '../pages/my-wants/my-wants';
     SigninPage,
     RegisterPage,
     ResetPasswordPage,
-    MyWantsPage
+    MyWantsPage,
+    MyWantsCardListPage
   ],
   imports: [
     BrowserModule,
@@ -52,7 +54,8 @@ import { MyWantsPage } from '../pages/my-wants/my-wants';
     SigninPage,
     RegisterPage,
     ResetPasswordPage,
-    MyWantsPage
+    MyWantsPage,
+    MyWantsCardListPage
   ],
   providers: [
     StatusBar,

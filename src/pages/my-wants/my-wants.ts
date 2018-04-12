@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController, ToastController } from 'ionic-angular';
 import { MyWantsProvider } from '../../providers/my-wants/my-wants';
 import { AuthProvider } from '../../providers/auth/auth';
+import { MyWantsCardListPage } from '../my-wants-card-list/my-wants-card-list';
 
 /**
  * Generated class for the MyWantsPage page.
@@ -23,7 +24,7 @@ export class MyWantsPage {
     private alertCtrl: AlertController, private toastCtrl: ToastController) {
   }
 
-  ionViewDidLoad() {
+  ionViewWillEnter() {
     console.log("UID USER: " + this.auth.getUID());
     this.loadLists();
   }
@@ -132,6 +133,10 @@ export class MyWantsPage {
         this.messageAlert("ERROR", "Error deleting the list");
       }
     });
+  }
+
+  goTomyWantCardList(list){
+    this.navCtrl.push(MyWantsCardListPage, {'list':list});
   }
 
   showErrorToast(data: any) {
